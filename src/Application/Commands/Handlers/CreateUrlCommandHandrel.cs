@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 
 namespace Application.Commands.Handlers;
 
-public class CreateUrlCommandHandrel(ICommandUrlRepository urlRepository, IPasswordHasher<string> passwordHasher, IDistributedCache cache) : IRequestHandler<CreateUrlCommand, CreateDataDto>
+public class CreateUrlCommandHandrel(ICommandUrlRepository urlRepository, 
+    IPasswordHasher<string> passwordHasher, IDistributedCache cache) : IRequestHandler<CreateUrlCommand, CreateDataDto>
 {
     public async Task<CreateDataDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
     {

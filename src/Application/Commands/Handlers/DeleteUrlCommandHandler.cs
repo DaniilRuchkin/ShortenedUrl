@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Handlers;
 
-public class DeleteUrlCommandHandler(ICommandUrlRepository commandUrlRepository, IQueryUrlRepository queryUrlRepository, IPasswordHasher<string> passwordHasher) : IRequestHandler<DeleteUrlCommand>
+public class DeleteUrlCommandHandler(ICommandUrlRepository commandUrlRepository, 
+    IQueryUrlRepository queryUrlRepository, IPasswordHasher<string> passwordHasher) : IRequestHandler<DeleteUrlCommand>
 {
     public async Task Handle(DeleteUrlCommand request, CancellationToken cancellationToken)
     {

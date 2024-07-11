@@ -2,12 +2,11 @@ using Application.Commands;
 using Application.Commands.Handlers;
 using Application.DTOs;
 using Application.Validators;
-using DotNetEnv;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Web.Extentions;
 using Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +24,12 @@ builder.Services.AddInfrastructure();
 builder.Services.AddScoped<IPasswordHasher<string>, PasswordHasher<string>>();
 builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDataDto>, CreateUrlCommandHandrel>();
 builder.Services.AddScoped<IRequestHandler<DeleteUrlCommand>, DeleteUrlCommandHandler>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379"; // Замените на ваше подключение к Redis
+    options.InstanceName = "UrlCache_"; // Уникальное имя префикса для ключей кэша
+});
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUrlCommandValidator>();

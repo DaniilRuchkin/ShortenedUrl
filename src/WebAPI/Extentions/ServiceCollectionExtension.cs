@@ -2,11 +2,10 @@
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure;
+namespace Web.Extentions;
 
-public static class DependencyInjeciton
+public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
