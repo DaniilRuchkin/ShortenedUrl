@@ -27,8 +27,8 @@ builder.Services.AddScoped<IRequestHandler<DeleteUrlCommand>, DeleteUrlCommandHa
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379"; // Замените на ваше подключение к Redis
-    options.InstanceName = "UrlCache_"; // Уникальное имя префикса для ключей кэша
+    options.Configuration = "localhost:6379"; 
+    options.InstanceName = "UrlCache_"; 
 });
 
 builder.Services.AddFluentValidationAutoValidation();
