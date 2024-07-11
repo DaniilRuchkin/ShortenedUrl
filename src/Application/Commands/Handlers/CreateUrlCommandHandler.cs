@@ -15,8 +15,8 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher,
     public async Task<CreateDataDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
     {
         var cacheKey = $"ShortenedUrl_{request.urlOriginal}";
-
         var cachedValue = await cache.GetStringAsync(cacheKey);
+
         if (cachedValue != null)
         {
             return JsonConvert.DeserializeObject<CreateDataDto>(cachedValue)!;

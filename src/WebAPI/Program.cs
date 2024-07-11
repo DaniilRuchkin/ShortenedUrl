@@ -25,12 +25,6 @@ builder.Services.AddScoped<IPasswordHasher<string>, PasswordHasher<string>>();
 builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDataDto>, CreateUrlCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteUrlCommand>, DeleteUrlCommandHandler>();
 
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "localhost:6379"; 
-    options.InstanceName = "UrlCache_"; 
-});
-
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUrlCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<DeleteUrlCommandValidator>();
