@@ -22,7 +22,7 @@ builder.Services.AddMediatR(configuration =>
 
 builder.Services.AddInfrastructure();
 builder.Services.AddScoped<IPasswordHasher<string>, PasswordHasher<string>>();
-builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDataDto>, CreateUrlCommandHandrel>();
+builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDataDto>, CreateUrlCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteUrlCommand>, DeleteUrlCommandHandler>();
 
 builder.Services.AddStackExchangeRedisCache(options =>

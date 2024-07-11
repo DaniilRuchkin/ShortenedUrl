@@ -1,4 +1,5 @@
-﻿using Domain.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Persistence.Data;
 
 namespace Web.Middlewares;
 
@@ -12,8 +13,11 @@ public class RedirectMiddleware(RequestDelegate next)
         {
             using (var scope = serviceProvider.CreateScope())
             {
-                var urlRepository = scope.ServiceProvider.GetRequiredService<IQueryUrlRepository>();
-                var shortUrl = await urlRepository.GetUrlAsync(path, context.RequestAborted);
+                var dbContext = scope.ServiceProvider.GetRequiredService<UrlDbContext>();
+
+                var shortUrl = await dbContext.ShortUrl
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(url => url.ShortenedUrl == path);
 
                 if (shortUrl != null)
                 {

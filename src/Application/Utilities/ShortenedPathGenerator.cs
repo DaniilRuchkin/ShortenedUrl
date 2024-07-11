@@ -6,7 +6,7 @@ public static class ShortenedPathGenerator
 {
     public static string GenerateShortenedPath()
     {
-        var symbol = Cuid.NewCuid().ToString();
+        var symbol = new Cuid2().ToString();
         var stringChars = new char[6];
         var random = new Random();
 

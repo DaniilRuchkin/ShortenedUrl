@@ -1,16 +1,16 @@
 ﻿using Application.DTOs;
 using Application.Utilities;
 using Domain.Entities;
-using Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using Persistence.Data;
 
 namespace Application.Commands.Handlers;
 
-public class CreateUrlCommandHandrel(ICommandUrlRepository urlRepository, 
-    IPasswordHasher<string> passwordHasher, IDistributedCache cache) : IRequestHandler<CreateUrlCommand, CreateDataDto>
+public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher,
+    IDistributedCache cache, UrlDbContext context) : IRequestHandler<CreateUrlCommand, CreateDataDto>
 {
     public async Task<CreateDataDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
     {
@@ -31,7 +31,9 @@ public class CreateUrlCommandHandrel(ICommandUrlRepository urlRepository,
             Password = hashedPassword,
             ShortenedUrl = shortenedUrl
         };
-        await urlRepository.CreateUrlAsync(urlCreate, cancellationToken);
+
+        await context.AddAsync(urlCreate, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         var createShortenedUrl = new CreateDataDto
         {

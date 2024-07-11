@@ -1,15 +1,18 @@
-﻿using Domain.Repositories;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Data;
 
 namespace Application.Commands.Handlers;
 
-public class DeleteUrlCommandHandler(ICommandUrlRepository commandUrlRepository, 
-    IQueryUrlRepository queryUrlRepository, IPasswordHasher<string> passwordHasher) : IRequestHandler<DeleteUrlCommand>
+public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher, 
+    UrlDbContext context) : IRequestHandler<DeleteUrlCommand>
 {
     public async Task Handle(DeleteUrlCommand request, CancellationToken cancellationToken)
     {
-        var entityToDelete = await queryUrlRepository.GetUrlAsync(request.shortenedUrl, cancellationToken);
+        var entityToDelete = await context.ShortUrl.
+            AsNoTracking().
+            FirstOrDefaultAsync(url => url.ShortenedUrl == request.shortenedUrl, cancellationToken);
 
         if (entityToDelete == null) 
         { 
@@ -20,7 +23,9 @@ public class DeleteUrlCommandHandler(ICommandUrlRepository commandUrlRepository,
 
         if (passwordVerificationPassword == PasswordVerificationResult.Success)
         {
-            await commandUrlRepository.DeleteUrlAsync(entityToDelete, cancellationToken);
+            context.ShortUrl.Remove(entityToDelete);
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }
