@@ -1,13 +1,13 @@
 using Application.Commands;
 using Application.Commands.Handlers;
 using Application.DTOs;
-using Application.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Web.Extentions;
 using Web.Middlewares;
+using Web.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

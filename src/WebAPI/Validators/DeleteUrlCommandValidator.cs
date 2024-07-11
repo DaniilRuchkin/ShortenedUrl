@@ -1,7 +1,7 @@
 ﻿using Application.Commands;
 using FluentValidation;
 
-namespace Application.Validators;
+namespace Web.Validators;
 
 public class DeleteUrlCommandValidator : AbstractValidator<DeleteUrlCommand>
 {
