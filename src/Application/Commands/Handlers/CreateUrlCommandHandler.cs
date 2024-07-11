@@ -4,13 +4,15 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Persistence.Configurations;
 using Persistence.Data;
 
 namespace Application.Commands.Handlers;
 
 public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher,
-    IDistributedCache cache, UrlDbContext context) : IRequestHandler<CreateUrlCommand, CreateDataDto>
+    IDistributedCache cache, UrlDbContext context, IOptions<CleanCacheSetting> options) : IRequestHandler<CreateUrlCommand, CreateDataDto>
 {
     public async Task<CreateDataDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
     {
@@ -40,9 +42,10 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher,
             ShortenedUrl = shortenedUrl
         };
 
+        var deleteBeforeHours = options.Value.DeleteBeforeHours;
         var cacheOptions = new DistributedCacheEntryOptions
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(deleteBeforeHours)
         };
         await cache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(createShortenedUrl), cacheOptions);
 
