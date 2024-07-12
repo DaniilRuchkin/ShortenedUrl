@@ -1,13 +1,10 @@
-﻿using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
-using Application.DTOs;
+﻿using Application.DTOs;
 using Application.Interfaces;
 using Application.Utilities;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Persistence.Configurations;
 using Persistence.Data;
 
