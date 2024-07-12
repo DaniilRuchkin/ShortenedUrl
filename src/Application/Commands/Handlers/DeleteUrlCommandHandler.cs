@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
@@ -6,7 +7,7 @@ using Persistence.Data;
 namespace Application.Commands.Handlers;
 
 public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher, 
-    UrlDbContext context) : IRequestHandler<DeleteUrlCommand>
+    UrlDbContext context, IRedisCacheService cache) : IRequestHandler<DeleteUrlCommand>
 {
     public async Task Handle(DeleteUrlCommand request, CancellationToken cancellationToken)
     {
@@ -24,8 +25,10 @@ public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
         if (passwordVerificationPassword == PasswordVerificationResult.Success)
         {
             context.ShortUrl.Remove(entityToDelete);
-
             await context.SaveChangesAsync(cancellationToken);
+
+            var chaceKey = $"ShortenedUrl_{entityToDelete.OriginalUrl}";
+            await cache.RemoveCachedData(chaceKey);
         }
     }
 }

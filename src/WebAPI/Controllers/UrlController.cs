@@ -16,9 +16,9 @@ public class UrlController(ISender sender) : ControllerBase
         var shortenedPath = await sender.Send(command);
         var shortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortenedPath.ShortenedUrl}";
 
-        var response = new BaseResponse<CreateDataDto>
+        var response = new BaseResponse<CreateDto>
         {
-            Data = new CreateDataDto
+            Data = new CreateDto
             {
                 ShortenedUrl = shortenedUrl,
             },

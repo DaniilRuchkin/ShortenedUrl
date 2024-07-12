@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Commands;
 
-public record CreateUrlCommand(string urlOriginal, string password) : IRequest<CreateDataDto>;
+public record CreateUrlCommand(string urlOriginal, string password) : IRequest<CreateDto>;

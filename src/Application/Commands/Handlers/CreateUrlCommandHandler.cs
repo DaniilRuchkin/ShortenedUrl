@@ -1,4 +1,6 @@
-﻿using Application.DTOs;
+﻿using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
+using Application.DTOs;
+using Application.Interfaces;
 using Application.Utilities;
 using Domain.Entities;
 using MediatR;
@@ -12,16 +14,17 @@ using Persistence.Data;
 namespace Application.Commands.Handlers;
 
 public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher,
-    IDistributedCache cache, UrlDbContext context, IOptions<CleanCacheSetting> options) : IRequestHandler<CreateUrlCommand, CreateDataDto>
+    UrlDbContext context, IOptions<CleanCacheSetting> options,
+    IRedisCacheService redisCache) : IRequestHandler<CreateUrlCommand, CreateDto>
 {
-    public async Task<CreateDataDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
+    public async Task<CreateDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
     {
-        var cacheKey = $"ShortenedUrl_{request.urlOriginal}";
-        var cachedValue = await cache.GetStringAsync(cacheKey);
-
-        if (cachedValue != null)
+        var cacheKey = $"ShartenedUrl_{request.urlOriginal}";
+        var cachedUrlShort = await redisCache.GetCachedDataAsync<CreateDto>(cacheKey);
+        
+        if (cachedUrlShort != null)
         {
-            return JsonConvert.DeserializeObject<CreateDataDto>(cachedValue)!;
+            return cachedUrlShort;
         }
 
         var hashedPassword = passwordHasher.HashPassword(null!, request.password);
@@ -37,17 +40,14 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher,
         await context.AddAsync(urlCreate, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
-        var createShortenedUrl = new CreateDataDto
+        var createShortenedUrl = new CreateDto
         {
             ShortenedUrl = shortenedUrl
         };
 
         var deleteBeforeHours = options.Value.DeleteBeforeHours;
-        var cacheOptions = new DistributedCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(deleteBeforeHours)
-        };
-        await cache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(createShortenedUrl), cacheOptions);
+
+        await redisCache.SetCachedDataAsync(cacheKey, createShortenedUrl, deleteBeforeHours);
 
         return createShortenedUrl;
     }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Web.Extentions;
 using Web.Middlewares;
 using Web.Validators;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,10 @@ builder.Services.AddMediatR(configuration =>
 });
 
 builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructureServices();
+
 builder.Services.AddScoped<IPasswordHasher<string>, PasswordHasher<string>>();
-builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDataDto>, CreateUrlCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDto>, CreateUrlCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteUrlCommand>, DeleteUrlCommandHandler>();
 
 builder.Services.AddFluentValidationAutoValidation();
