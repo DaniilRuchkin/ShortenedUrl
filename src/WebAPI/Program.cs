@@ -22,8 +22,8 @@ builder.Services.AddMediatR(configuration =>
     configuration.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
 
-builder.Services.AddInfrastructure();
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureDbContext();
+builder.Services.AddInfrastructureRedisCacheServices();
 
 builder.Services.AddScoped<IPasswordHasher<string>, PasswordHasher<string>>();
 builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDto>, CreateUrlCommandHandler>();

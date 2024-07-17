@@ -1,12 +1,11 @@
 ﻿using Application.Interfaces;
 using Infrastructure.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions;
 
-public static class ServiceCollectionExtension
+public static class InfrastructureRedisCacheExtensions
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureRedisCacheServices(this IServiceCollection services)
     {
         var host = Environment.GetEnvironmentVariable("REDIS_HOST");
         var key = Environment.GetEnvironmentVariable("REDIS_INSTANCENAME");
