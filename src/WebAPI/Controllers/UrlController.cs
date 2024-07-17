@@ -2,6 +2,7 @@
 using Application.Responses;
 using Application.Url.Commands.Create;
 using Application.Url.Commands.Delete;
+using Application.Url.Queries.Get;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,5 +35,23 @@ public class UrlController(ISender sender) : ControllerBase
         await sender.Send(deleteUrlCommand);
 
         return Ok();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RedirectUrlAsync(string urlRedirect)
+    {
+        var decoder = Uri.UnescapeDataString(urlRedirect);
+        var path = decoder.Split('/').LastOrDefault();
+
+        var query = new GetUrlQuery(path!);
+
+        var url = await sender.Send(query);
+
+        if (url == null)
+        {
+            return BadRequest();
+        }
+
+        return Redirect(url.Url!);
     }
 }

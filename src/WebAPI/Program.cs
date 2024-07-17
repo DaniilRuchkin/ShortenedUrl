@@ -33,6 +33,7 @@ builder.Services.AddScoped<IRequestHandler<GetUrlQuery, GetUrlDto>, GetUrlQueryH
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUrlCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<DeleteUrlCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<GetUrlQueryValidator>();
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -46,7 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<RedirectMiddleware>();
+
 app.UseMiddleware<ErrorMiddleware>();
 
 app.UseHttpsRedirection();

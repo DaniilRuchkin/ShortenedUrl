@@ -1,18 +1,21 @@
 ﻿using Application.DTOs;
-using Application.Utilities;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using NanoidDotNet;
+using Persistence.Configurations;
 using Persistence.Data;
 
 namespace Application.Url.Commands.Create;
 
-public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, UrlDbContext context) : IRequestHandler<CreateUrlCommand, CreateDto>
+public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, UrlDbContext context, IOptions<CleanCacheSetting> options) : IRequestHandler<CreateUrlCommand, CreateDto>
 {
     public async Task<CreateDto> Handle(CreateUrlCommand request, CancellationToken cancellationToken)
     {
         var hashedPassword = passwordHasher.HashPassword(null!, request.password);
-        var shortenedUrl = ShortenedPathGenerator.GenerateShortenedPath();
+        var size = options.Value.SizeIndificator;
+        var shortenedUrl = Nanoid.Generate(size: size);
         var cacheKeyShortUrl = $"{shortenedUrl}";
 
         var urlCreate = new Entity
@@ -22,8 +25,8 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, Url
             ShortenedUrl = shortenedUrl
         };
 
-        await context.AddAsync(urlCreate, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
+        await context.AddAsync(urlCreate);
+        await context.SaveChangesAsync();
 
         var urlShort = new CreateDto
         {
