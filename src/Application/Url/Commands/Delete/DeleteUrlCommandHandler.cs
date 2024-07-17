@@ -20,15 +20,17 @@ public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
             throw new NullReferenceException();
         }
 
-        var passwordVerificationPassword = passwordHasher.VerifyHashedPassword(null!, entityToDelete.Password, request.password);
+        var passwordVerificationPassword = passwordHasher.VerifyHashedPassword(null!, entityToDelete.Password!, request.password);
 
-        if (passwordVerificationPassword == PasswordVerificationResult.Success)
+        if (passwordVerificationPassword != PasswordVerificationResult.Success)
         {
-            context.ShortUrl.Remove(entityToDelete);
-            await context.SaveChangesAsync(cancellationToken);
-
-            var chaceKey = $"ShortenedUrl_{entityToDelete.OriginalUrl}";
-            await cache.RemoveCachedData(chaceKey);
+            throw new UnauthorizedAccessException();
         }
+
+        context.ShortUrl.Remove(entityToDelete);
+        await context.SaveChangesAsync(cancellationToken);
+
+        var chaceKey = $"{entityToDelete.OriginalUrl}";
+        await cache.RemoveCachedData(chaceKey);
     }
 }

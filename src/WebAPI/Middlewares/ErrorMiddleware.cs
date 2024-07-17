@@ -12,14 +12,23 @@ public class ErrorMiddleware(RequestDelegate next)
         }
         catch (NullReferenceException ex)
         {
-            var response = new BaseResponse<object>
-            {
-                Data = null,
-                Error = ex.Message
-            };
-
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsJsonAsync(response);
+            await ExcentionAsync(context, ex, StatusCodes.Status400BadRequest);
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            await ExcentionAsync(context, ex, StatusCodes.Status401Unauthorized);
+        }
+    }
+
+    private static Task ExcentionAsync(HttpContext context, Exception ex, int statusCode)
+    {
+        var response = new BaseResponse<object>()
+        {
+            Data = null,
+            Error = ex.Message
+        };
+
+        context.Response.StatusCode = statusCode;
+        return context.Response.WriteAsJsonAsync(response);
     }
 }
