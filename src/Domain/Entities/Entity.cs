@@ -7,7 +7,10 @@ public class Entity
 {
     [BsonId]
     public ObjectId Id { get; set; }
-    public string OriginalUrl { get; set; } = string.Empty;
-    public string ShortenedUrl { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+
+    public string? OriginalUrl { get; set; }
+
+    public string? ShortenedUrl { get; set; }
+
+    public string? Password { get; set; }
 }

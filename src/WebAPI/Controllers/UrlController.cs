@@ -1,6 +1,7 @@
-﻿using Application.Commands;
-using Application.DTOs;
+﻿using Application.DTOs;
 using Application.Responses;
+using Application.Url.Commands.Create;
+using Application.Url.Commands.Delete;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +15,13 @@ public class UrlController(ISender sender) : ControllerBase
     public async Task<IActionResult> CreateShortUrlAsync(CreateUrlCommand command)
     {
         var shortenedPath = await sender.Send(command);
-        var shortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortenedPath.ShortenedUrl}";
+        var shortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortenedPath.Url}";
 
         var response = new BaseResponse<CreateDto>
         {
             Data = new CreateDto
             {
-                ShortenedUrl = shortenedUrl,
+                Url = shortenedUrl,
             },
         };
 

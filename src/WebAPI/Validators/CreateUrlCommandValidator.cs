@@ -1,4 +1,4 @@
-﻿using Application.Commands;
+﻿using Application.Url.Commands.Create;
 using FluentValidation;
 
 namespace Web.Validators;

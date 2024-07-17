@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace Application.Commands;
+namespace Application.Url.Commands.Delete;
 
 public record DeleteUrlCommand(string shortenedUrl, string password) : IRequest;

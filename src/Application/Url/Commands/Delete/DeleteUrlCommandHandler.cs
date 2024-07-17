@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 
-namespace Application.Commands.Handlers;
+namespace Application.Url.Commands.Delete;
 
-public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher, 
+public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
     UrlDbContext context, IRedisCacheService cache) : IRequestHandler<DeleteUrlCommand>
 {
     public async Task Handle(DeleteUrlCommand request, CancellationToken cancellationToken)
@@ -15,8 +15,8 @@ public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
             AsNoTracking().
             FirstOrDefaultAsync(url => url.ShortenedUrl == request.shortenedUrl, cancellationToken);
 
-        if (entityToDelete == null) 
-        { 
+        if (entityToDelete == null)
+        {
             throw new NullReferenceException();
         }
 

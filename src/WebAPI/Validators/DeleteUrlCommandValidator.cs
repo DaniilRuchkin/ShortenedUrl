@@ -1,4 +1,4 @@
-﻿using Application.Commands;
+﻿using Application.Url.Commands.Delete;
 using FluentValidation;
 
 namespace Web.Validators;

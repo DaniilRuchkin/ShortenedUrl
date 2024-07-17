@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs;
 
-public class CreateDto
+public class GetUrlDto
 {
     public string? Url { get; set; }
 }

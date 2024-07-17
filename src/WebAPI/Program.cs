@@ -1,6 +1,7 @@
-using Application.Commands;
-using Application.Commands.Handlers;
 using Application.DTOs;
+using Application.Url.Commands.Create;
+using Application.Url.Commands.Delete;
+using Application.Url.Queries.Get;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Extensions;
@@ -27,6 +28,7 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddScoped<IPasswordHasher<string>, PasswordHasher<string>>();
 builder.Services.AddScoped<IRequestHandler<CreateUrlCommand, CreateDto>, CreateUrlCommandHandler>();
 builder.Services.AddScoped<IRequestHandler<DeleteUrlCommand>, DeleteUrlCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<GetUrlQuery, GetUrlDto>, GetUrlQueryHandler>();
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUrlCommandValidator>();
