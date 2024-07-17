@@ -18,6 +18,10 @@ public class ErrorMiddleware(RequestDelegate next)
         {
             await ExcentionAsync(context, ex, StatusCodes.Status401Unauthorized);
         }
+        catch (Exception ex)
+        {
+            await ExcentionAsync(context, ex, StatusCodes.Status500InternalServerError);
+        }
     }
 
     private static Task ExcentionAsync(HttpContext context, Exception ex, int statusCode)
