@@ -28,11 +28,11 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, Url
         await context.AddAsync(urlCreate);
         await context.SaveChangesAsync();
 
-        var urlShort = new CreateDto
+        var createdUrl = new CreateDto
         {
             Url = shortenedUrl
         };
 
-        return urlShort;
+        return createdUrl;
     }
 }

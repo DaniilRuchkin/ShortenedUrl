@@ -12,7 +12,6 @@ public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
     public async Task Handle(DeleteUrlCommand request, CancellationToken cancellationToken)
     {
         var entityToDelete = await context.ShortUrl.
-            AsNoTracking().
             FirstOrDefaultAsync(url => url.ShortenedUrl == request.shortenedUrl, cancellationToken);
 
         if (entityToDelete == null)
