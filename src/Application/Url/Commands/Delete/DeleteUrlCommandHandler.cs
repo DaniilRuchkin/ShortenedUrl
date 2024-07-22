@@ -16,7 +16,7 @@ public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
 
         if (entityToDelete == null)
         {
-            throw new NullReferenceException();
+            throw new InvalidOperationException();
         }
 
         var passwordVerificationPassword = passwordHasher.VerifyHashedPassword(null!, entityToDelete.Password!, request.password);
