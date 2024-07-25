@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace URLShortener.Domain.Entities;
 
-public class Entity
+public class ShortUrlsEntity
 {
     [BsonId]
     public ObjectId Id { get; set; }
