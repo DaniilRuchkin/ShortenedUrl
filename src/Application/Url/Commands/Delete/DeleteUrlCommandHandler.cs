@@ -29,7 +29,6 @@ public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
         context.ShortUrl.Remove(entityToDelete);
         await context.SaveChangesAsync(cancellationToken);
 
-        var chaceKey = $"{entityToDelete.OriginalUrl}";
-        await cache.RemoveCachedData(chaceKey);
+        await cache.RemoveCachedData(key: entityToDelete.OriginalUrl!);
     }
 }
