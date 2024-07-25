@@ -12,7 +12,10 @@ public class GetUrlQueryHandler(UrlDbContext dbContext, IRedisCacheService redis
 {
     public async Task<GetUrlDto> Handle(GetUrlQuery request, CancellationToken cancellationToken)
     {
-        var result = await redisCacheService.GetCachedDataAsync<GetUrlDto>(request.shortUrl);
+        var decoder = Uri.UnescapeDataString(request.shortUrl);
+        var path = decoder.Split('/').LastOrDefault();
+
+        var result = await redisCacheService.GetCachedDataAsync<GetUrlDto>(path!);
 
         if (result == null)
         {

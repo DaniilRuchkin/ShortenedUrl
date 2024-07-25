@@ -5,6 +5,7 @@ using URLShortener.Application.Url.Queries.Get;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using URLShortener.Application.DTOs;
+using Application.DTOs;
 
 namespace URLShortener.Web.Controllers;
 
@@ -13,8 +14,9 @@ namespace URLShortener.Web.Controllers;
 public class UrlController(ISender sender) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> CreateShortUrlAsync(CreateUrlCommand command)
+    public async Task<IActionResult> CreateShortUrlAsync(CreateUrlDto createUrlDto)
     {
+        var command = new CreateUrlCommand(createUrlDto.Url!, createUrlDto.Password!);
         var shortenedPath = await sender.Send(command);
         var shortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortenedPath.Url}";
 
@@ -37,13 +39,10 @@ public class UrlController(ISender sender) : ControllerBase
         return Ok();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> RedirectUrlAsync(string urlRedirect)
+    [HttpGet("{shortUrlId}")]
+    public async Task<IActionResult> RedirectUrlAsync(string shortUrlId)
     {
-        var decoder = Uri.UnescapeDataString(urlRedirect);
-        var path = decoder.Split('/').LastOrDefault();
-
-        var query = new GetUrlQuery(path!);
+        var query = new GetUrlQuery(shortUrlId);
 
         var url = await sender.Send(query);
 

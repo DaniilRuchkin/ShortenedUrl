@@ -1,6 +1,6 @@
 ﻿namespace URLShortener.Application.DTOs;
 
-public class DeleteDto
+public class DeleteUrlDto
 {
     public string? ShortenedUrl { get; set; }
 
