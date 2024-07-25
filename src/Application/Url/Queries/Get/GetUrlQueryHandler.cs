@@ -19,8 +19,12 @@ public class GetUrlQueryHandler(UrlDbContext dbContext, IRedisCacheService redis
             var entity = await dbContext.ShortUrl
             .FirstOrDefaultAsync(url => url.ShortenedUrl == request.shortUrl, cancellationToken);
 
-            var deleteBefore = options.Value.DeleteBeforeHours;
+            if (entity == null)
+            {
+                throw new NullReferenceException();
+            }
 
+            var deleteBefore = options.Value.DeleteBeforeHours;
             await redisCacheService.SetCachedDataAsync(entity!.OriginalUrl!, request.shortUrl, deleteBefore);
 
             var originUrl = new GetUrlDto
