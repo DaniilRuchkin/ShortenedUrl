@@ -1,7 +1,7 @@
-﻿using Application.Interfaces;
-using Infrastructure.Services;
+﻿using URLShortener.Application.Interfaces;
+using URLShortener.Infrastructure.Services;
 
-namespace Infrastructure.Extensions;
+namespace URLShortener.Web.Extentions;
 
 public static class InfrastructureRedisCacheExtensions
 {

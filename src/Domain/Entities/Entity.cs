@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Domain.Entities;
+namespace URLShortener.Domain.Entities;
 
 public class Entity
 {

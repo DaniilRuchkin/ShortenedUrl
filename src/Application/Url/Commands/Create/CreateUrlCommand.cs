@@ -1,6 +1,6 @@
-﻿using Application.DTOs;
+﻿using URLShortener.Application.DTOs;
 using MediatR;
 
-namespace Application.Url.Commands.Create;
+namespace URLShortener.Application.Url.Commands.Create;
 
 public record CreateUrlCommand(string urlOriginal, string password) : IRequest<CreateDto>;

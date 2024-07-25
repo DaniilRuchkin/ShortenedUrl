@@ -1,6 +1,6 @@
-﻿using Application.DTOs;
+﻿using URLShortener.Application.DTOs;
 using MediatR;
 
-namespace Application.Url.Queries.Get;
+namespace URLShortener.Application.Url.Queries.Get;
 
 public record GetUrlQuery(string shortUrl) : IRequest<GetUrlDto>;

@@ -1,4 +1,4 @@
-﻿namespace Application.Responses;
+﻿namespace URLShortener.Application.Responses;
 
 public class BaseResponse<T>
 {

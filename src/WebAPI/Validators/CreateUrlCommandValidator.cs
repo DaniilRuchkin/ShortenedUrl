@@ -1,7 +1,7 @@
-﻿using Application.Url.Commands.Create;
+﻿using URLShortener.Application.Url.Commands.Create;
 using FluentValidation;
 
-namespace Web.Validators;
+namespace URLShortener.Web.Validators;
 
 public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
 {

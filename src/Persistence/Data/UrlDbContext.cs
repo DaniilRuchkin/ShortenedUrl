@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
+using URLShortener.Domain.Entities;
 
-namespace Persistence.Data;
+namespace URLShortener.Persistence.Data;
 
 public class UrlDbContext(DbContextOptions<UrlDbContext> options) : DbContext(options)
 {

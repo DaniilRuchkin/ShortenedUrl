@@ -1,6 +1,6 @@
-﻿using Application.Responses;
+﻿using URLShortener.Application.Responses;
 
-namespace Web.Middlewares;
+namespace URLShortener.Web.Middlewares;
 
 public class ErrorMiddleware(RequestDelegate next)
 {

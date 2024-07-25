@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs;
+﻿namespace URLShortener.Application.DTOs;
 
 public class GetUrlDto
 {

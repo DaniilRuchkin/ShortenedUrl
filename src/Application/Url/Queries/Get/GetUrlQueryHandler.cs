@@ -1,12 +1,12 @@
-﻿using Application.DTOs;
-using Application.Interfaces;
+﻿using URLShortener.Application.DTOs;
+using URLShortener.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Persistence.Configurations;
-using Persistence.Data;
+using URLShortener.Persistence.Configurations;
+using URLShortener.Persistence.Data;
 
-namespace Application.Url.Queries.Get;
+namespace URLShortener.Application.Url.Queries.Get;
 
 public class GetUrlQueryHandler(UrlDbContext dbContext, IRedisCacheService redisCacheService, IOptions<CleanCacheSetting> options) : IRequestHandler<GetUrlQuery, GetUrlDto>
 {

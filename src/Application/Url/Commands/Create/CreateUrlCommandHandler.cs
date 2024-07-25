@@ -1,13 +1,13 @@
-﻿using Application.DTOs;
-using Domain.Entities;
+﻿using URLShortener.Application.DTOs;
+using URLShortener.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using NanoidDotNet;
-using Persistence.Configurations;
-using Persistence.Data;
+using URLShortener.Persistence.Configurations;
+using URLShortener.Persistence.Data;
 
-namespace Application.Url.Commands.Create;
+namespace URLShortener.Application.Url.Commands.Create;
 
 public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, UrlDbContext context, IOptions<CleanCacheSetting> options) : IRequestHandler<CreateUrlCommand, CreateDto>
 {

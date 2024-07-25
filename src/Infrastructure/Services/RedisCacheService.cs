@@ -1,8 +1,8 @@
-﻿using Application.Interfaces;
+﻿using URLShortener.Application.Interfaces;
 using Microsoft.Extensions.Caching.Distributed; 
 using Newtonsoft.Json;
 
-namespace Infrastructure.Services;
+namespace URLShortener.Infrastructure.Services;
 
 public class RedisCacheService(IDistributedCache cache) : IRedisCacheService
 {

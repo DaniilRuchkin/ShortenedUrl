@@ -1,10 +1,10 @@
-﻿using Application.Interfaces;
+﻿using URLShortener.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Data;
+using URLShortener.Persistence.Data;
 
-namespace Application.Url.Commands.Delete;
+namespace URLShortener.Application.Url.Commands.Delete;
 
 public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
     UrlDbContext context, IRedisCacheService cache) : IRequestHandler<DeleteUrlCommand>

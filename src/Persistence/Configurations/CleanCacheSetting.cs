@@ -1,4 +1,4 @@
-﻿namespace Persistence.Configurations;
+﻿namespace URLShortener.Persistence.Configurations;
 
 public class CleanCacheSetting
 {

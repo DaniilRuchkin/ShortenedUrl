@@ -1,7 +1,7 @@
-﻿using Application.Url.Queries.Get;
+﻿using URLShortener.Application.Url.Queries.Get;
 using FluentValidation;
 
-namespace Web.Validators;
+namespace URLShortener.Web.Validators;
 
 public class GetUrlQueryValidator : AbstractValidator<GetUrlQuery>
 {

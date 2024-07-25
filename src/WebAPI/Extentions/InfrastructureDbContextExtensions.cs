@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Persistence.Data;
+using URLShortener.Persistence.Data;
 
-namespace Web.Extentions;
+namespace URLShortener.Web.Extentions;
 
 public static class InfrastructureDbContextExtensions
 {

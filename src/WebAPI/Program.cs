@@ -1,15 +1,14 @@
-using Application.DTOs;
-using Application.Url.Commands.Create;
-using Application.Url.Commands.Delete;
-using Application.Url.Queries.Get;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Infrastructure.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Web.Extentions;
-using Web.Middlewares;
-using Web.Validators;
+using URLShortener.Application.DTOs;
+using URLShortener.Application.Url.Commands.Create;
+using URLShortener.Application.Url.Commands.Delete;
+using URLShortener.Application.Url.Queries.Get;
+using URLShortener.Web.Extentions;
+using URLShortener.Web.Middlewares;
+using URLShortener.Web.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,12 +1,12 @@
-﻿using Application.DTOs;
-using Application.Responses;
-using Application.Url.Commands.Create;
-using Application.Url.Commands.Delete;
-using Application.Url.Queries.Get;
+﻿using URLShortener.Application.Responses;
+using URLShortener.Application.Url.Commands.Create;
+using URLShortener.Application.Url.Commands.Delete;
+using URLShortener.Application.Url.Queries.Get;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using URLShortener.Application.DTOs;
 
-namespace Web.Controllers;
+namespace URLShortener.Web.Controllers;
 
 [Route("api/v1/url")]
 [ApiController]
