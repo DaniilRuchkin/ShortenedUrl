@@ -3,4 +3,4 @@ using MediatR;
 
 namespace URLShortener.Application.Url.Commands.Create;
 
-public record CreateUrlCommand(string urlOriginal, string password) : IRequest<CreateDto>;
+public record CreateUrlCommand(string urlOriginal, string password, string host, string sheme) : IRequest<CreateDto>;

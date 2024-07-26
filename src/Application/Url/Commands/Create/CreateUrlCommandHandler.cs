@@ -1,9 +1,9 @@
-﻿using URLShortener.Application.DTOs;
-using URLShortener.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using NanoidDotNet;
+using URLShortener.Application.DTOs;
+using URLShortener.Domain.Entities;
 using URLShortener.Persistence.Configurations;
 using URLShortener.Persistence.Data;
 
@@ -15,7 +15,7 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, Url
     {
         var hashedPassword = passwordHasher.HashPassword(null!, request.password);
         var size = options.Value.SizeIndificator;
-        var shortenedUrl = Nanoid.Generate(size: size);
+        var shortenedUrl = Nanoid.Generate(size: 6);
 
         var urlCreate = new ShortUrlsEntity
         {
@@ -29,7 +29,7 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, Url
 
         var createdUrl = new CreateDto
         {
-            Url = shortenedUrl
+            Url = $"{request.sheme}://{request.host}/{shortenedUrl}"
         };
 
         return createdUrl;

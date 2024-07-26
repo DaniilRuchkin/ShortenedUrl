@@ -1,4 +1,5 @@
 ﻿using URLShortener.Application.Responses;
+using FluentValidation;
 
 namespace URLShortener.Web.Middlewares;
 
@@ -9,6 +10,10 @@ public class ErrorMiddleware(RequestDelegate next)
         try
         {
             await next.Invoke(context);
+        }
+        catch (ValidationException ex)
+        {
+            await WriteValidationResponseAsync(context, ex);
         }
         catch (NullReferenceException ex)
         {
@@ -23,7 +28,21 @@ public class ErrorMiddleware(RequestDelegate next)
             await WriteExceptionResponseAsync(context, ex, StatusCodes.Status500InternalServerError);
         }
     }
+    private static Task WriteValidationResponseAsync(HttpContext context, ValidationException ex)
+    {
+        var groupedErrors = ex.Errors
+                .GroupBy(e => e.PropertyName)
+                .Select(g => $"{g.Key}: {string.Join("; ", g.Select(e => e.ErrorMessage).Distinct())}");
 
+        var response = new BaseResponse<object>
+        {
+            Data = null,
+            Error = string.Join("; ", groupedErrors)
+        };
+
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        return context.Response.WriteAsJsonAsync(response);
+    }
     private static Task WriteExceptionResponseAsync(HttpContext context, Exception ex, int statusCode)
     {
         var response = new BaseResponse<object>()
