@@ -2,7 +2,6 @@
 using Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using URLShortener.Application.DTOs;
 using URLShortener.Application.Responses;
 using URLShortener.Application.Url.Commands.Create;
 using URLShortener.Application.Url.Commands.Delete;
@@ -10,11 +9,10 @@ using URLShortener.Application.Url.Queries.Get;
 
 namespace URLShortener.Web.Controllers;
 
-[Route("api/v1/url")]
 [ApiController]
 public class UrlController(ISender sender) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("api/v1/url")]
     public async Task<IActionResult> CreateShortUrlAsync(CreateUrlRequest createUrlRequest)
     {
         var command = new CreateUrlCommand(createUrlRequest.Url!, createUrlRequest.Password!, Request.Host.Value, Request.Scheme);
@@ -31,7 +29,7 @@ public class UrlController(ISender sender) : ControllerBase
         return Ok(response);
     }
 
-    [HttpDelete]
+    [HttpDelete("api/v1/url")]
     public async Task<IActionResult> DeleteUrlAsync(DeleteUrlCommand deleteUrlCommand)
     {
         await sender.Send(deleteUrlCommand);
@@ -39,10 +37,10 @@ public class UrlController(ISender sender) : ControllerBase
         return Ok();
     }
 
-    [HttpGet("{shortUrlId}")]
-    public async Task<IActionResult> RedirectUrlAsync(string shortUrlId)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> RedirectUrlAsync(string id)
     {
-        var query = new GetUrlQuery(shortUrlId);
+        var query = new GetUrlQuery(id);
         var url = await sender.Send(query);
 
         if (url == null)
