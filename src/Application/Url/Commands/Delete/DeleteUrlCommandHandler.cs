@@ -1,0 +1,34 @@
+﻿using URLShortener.Application.Interfaces;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using URLShortener.Persistence.Data;
+
+namespace URLShortener.Application.Url.Commands.Delete;
+
+public class DeleteUrlCommandHandler(IPasswordHasher<string> passwordHasher,
+    UrlDbContext context, IRedisCacheService cache) : IRequestHandler<DeleteUrlCommand>
+{
+    public async Task Handle(DeleteUrlCommand request, CancellationToken cancellationToken)
+    {
+        var entityToDelete = await context.ShortUrl.
+            FirstOrDefaultAsync(url => url.ShortenedUrl == request.shortenedUrl, cancellationToken);
+
+        if (entityToDelete == null)
+        {
+            throw new InvalidOperationException();
+        }
+
+        var passwordVerificationPassword = passwordHasher.VerifyHashedPassword(null!, entityToDelete.Password!, request.password);
+
+        if (passwordVerificationPassword != PasswordVerificationResult.Success)
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        context.ShortUrl.Remove(entityToDelete);
+        await context.SaveChangesAsync(cancellationToken);
+
+        await cache.RemoveCachedData(key: entityToDelete.OriginalUrl!);
+    }
+}
