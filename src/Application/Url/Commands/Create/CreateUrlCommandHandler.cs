@@ -17,7 +17,7 @@ public class CreateUrlCommandHandler(IPasswordHasher<string> passwordHasher, Url
         var size = options.Value.SizeIndificator;
         var shortenedUrl = Nanoid.Generate(size: 6);
 
-        var urlCreate = new ShortUrlsEntity
+        var urlCreate = new ShortUrl
         {
             OriginalUrl = request.urlOriginal,
             Password = hashedPassword,

@@ -5,12 +5,12 @@ namespace URLShortener.Persistence.Data;
 
 public class UrlDbContext(DbContextOptions<UrlDbContext> options) : DbContext(options)
 {
-    public DbSet<ShortUrlsEntity> ShortUrl { get; set; }
+    public DbSet<ShortUrl> ShortUrl { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<ShortUrlsEntity>();
+        modelBuilder.Entity<ShortUrl>();
     }
 }
