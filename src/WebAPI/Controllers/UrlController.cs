@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using URLShortener.Application.DTOs;
@@ -14,14 +15,14 @@ namespace URLShortener.Web.Controllers;
 public class UrlController(ISender sender) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> CreateShortUrlAsync(CreateUrlDto createUrlDto)
+    public async Task<IActionResult> CreateShortUrlAsync(CreateUrlRequest createUrlRequest)
     {
-        var command = new CreateUrlCommand(createUrlDto.Url!, createUrlDto.Password!, Request.Host.Value, Request.Scheme);
+        var command = new CreateUrlCommand(createUrlRequest.Url!, createUrlRequest.Password!, Request.Host.Value, Request.Scheme);
         var shortenedPath = await sender.Send(command);
 
-        var response = new BaseResponse<CreateDto>
+        var response = new BaseResponse<CreateShortUrlResponse>
         {
-            Data = new CreateDto
+            Data = new CreateShortUrlResponse
             {
                 Url = shortenedPath.Url,
             },
