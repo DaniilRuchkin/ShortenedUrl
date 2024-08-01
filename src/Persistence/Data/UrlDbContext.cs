@@ -10,7 +10,5 @@ public class UrlDbContext(DbContextOptions<UrlDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<ShortUrl>();
     }
 }
